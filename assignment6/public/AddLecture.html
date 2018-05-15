@@ -25,7 +25,7 @@
             <input type="text" class="form-control" placeholder="Enter Subject name"  v-model="name" required>
         </div>
         <div class="form-group">
-            <label for="vendor">Select Subject</label>
+            <label for="vendor">Select Teacher</label>
             <select class="form-control" id="sel1" v-model="teacherId"  >
                 <!--<option value="">Select Any value</option>-->
                 <option v-for="teacher in teachers"
@@ -35,7 +35,7 @@
             </select>
         </div>
 
-        <button class="btn btn-default" v-on:click= "addSubject">Add Subject</button>
+        <button class="btn btn-default" v-on:click= "addSubject">Add Lecture</button>
     </form>
 
 </div>
@@ -76,6 +76,9 @@
                 console.log(ids.substr(ids.indexOf("=")+1) )
                 this.courseId = ids.substr(ids.indexOf("=")+1);
                 console.log(this.courseId)
+                if(ids===''){
+                    window.location = "index.html"
+                }
             },
             findAllTeachers(){
                 new Promise((resolve)=>{
