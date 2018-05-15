@@ -116,6 +116,26 @@ route.get('/:courseId/batches', (req, res) =>{
     })
     })
 });
+// get request on http://localhost:8080/courses/batches
+route.get('/course/findAllBatch', (req, res) =>{
+
+    Batch.findAll({
+        include: [
+            {
+                model: Course
+            }
+        ]
+    }).
+    then((course)=>{
+        console.log("hello all")
+        res.status(200).send(course)
+    })
+    .catch((err)=>{
+        res.status(500).send({
+        error : "could not retrieve Course "
+    })
+    })
+});
 // post request on http://localhost:8080/courses/3/batches
 route.post('/:courseId/batches', (req, res) =>{
 

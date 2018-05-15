@@ -16,6 +16,60 @@
 </head>
 <body>
 <div id="header"></div>
+<div class="container"  id="app">
+    <h1>Showing All Batches</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Batch Id</th>
+            <th>Batch Name</th>
+            <th>Course Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="batche in batches">
+            <td>{{batche.id}}</td>
+            <td>{{batche.name}}</td>
+            <td>{{batche.Course.name}}</td>
+            <!--<td>{{course.id}}</td>-->
+            <!--<td>-->
+            <!--<button type="button" class="btn btn-primary" v-on:click="changequantity(cartItem.productId,-1)">-</button>-->
+            <!--{{cartItem.quantity}}-->
+            <!--<button type="button" class="btn btn-primary" v-on:click="changequantity(cartItem.productId,+1)">+</button>-->
+            <!--</td>-->
 
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
+<script>
+
+    let app = new Vue({
+        el: "#app",
+        data:{
+            batches:[],
+            courseId : ''
+        },
+        methods: {
+            getAllCourses() {
+                new Promise((resolve) => {
+                    axios.get('/courses/course/findAllBatch').then(function (response) {
+                    resolve(response.data)
+                })
+            }).then((data) => {
+                    console.log(data)
+                this.batches = data
+                // console.log(this.products)
+            }).catch((err)=>{
+                    console.log(err)
+            })
+            }
+        }
+
+    })
+    app.getAllCourses();
+    // app.findAllVendors();
+</script>
+
 </html>
