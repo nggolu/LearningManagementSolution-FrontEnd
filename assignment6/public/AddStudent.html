@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstap.css">
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#header").load("header.html");
+        });
+    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+<div id="header"></div>
+
+<div class="container">
+    <h2>Add Student</h2>
+    <form id="demo">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" placeholder="Enter Student name"  v-model="name" required>
+        </div>
+
+        <button class="btn btn-default" v-on:click= "addStudent">Add Product</button>
+    </form>
+
+</div>
+
+</body>
+</html>
+
+<script>
+    let app =new Vue({
+        el: '#demo',
+        data: {
+            name  : ''
+        },
+        methods : {
+            addStudent() {
+                var obj = {name: this.name};
+                console.log(obj)
+                new Promise((resolve) => {
+                    axios.post('/students', obj).then(function (data) {
+                    resolve(data.data)
+                    // console.log(data.data)
+                })
+            })
+            .then((data) => {
+                    console.log(data)
+            })
+                window.alert("Student has been added")
+                // window.location();
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

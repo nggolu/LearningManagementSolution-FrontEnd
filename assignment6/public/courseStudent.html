@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstap.css">
+    <script src="js/jquery.js"></script>
+
+    <script>
+        $(function(){
+            $("#header").load("header.html");
+        });
+    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+    <!-- <script src="course.js"></script>-->
+</head>
+<body>
+<div id="header"></div>
+<div class="container"  id="app">
+    <div class="row">
+        <div class="col-sm-3" ></div>
+        <a href="AddCourse.html" class = "col-sm-6" style="color: white">
+            <button type="button"  class="btn btn-primary col-sm-12" >Add Lecture</button>
+        </a>
+        <div class="col-sm-2" ></div>
+    </div>
+    <br><br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Batch Id</th>
+            <th>Student Name</th>
+            <th>Batch Name</th>
+            <th>Course Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="student in students">
+
+            <td>{{student.Student.id}}</td>
+            <td>{{student.Student.name}}</td>
+            <td>{{student.Batch.name}}</td>
+            <td>{{student.Batch.Course.name}}</td>
+            <!--<td>{{student.name}}</td>-->
+            <!--<td>{{course.id}}</td>-->
+
+            <!--<td>-->
+            <!--<button type="button" class="btn btn-primary" v-on:click="changequantity(cartItem.productId,-1)">-</button>-->
+            <!--{{cartItem.quantity}}-->
+            <!--<button type="button" class="btn btn-primary" v-on:click="changequantity(cartItem.productId,+1)">+</button>-->
+            <!--</td>-->
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script >
+
+    let app = new Vue({
+        el: "#app",
+        data:{
+            students : [],
+            batchId : ''
+        },
+        methods: {
+            getAllStudents() {
+                var ids =window.location.search ;
+                console.log(ids);
+                // console.log(ids.substr(ids.indexOf("=")+1) )
+                this.batchId = ids.substr(ids.indexOf("=")+1);
+                // console.log(this.courseId)
+                new Promise((resolve) => {
+                    axios.get('/courses/'+this.batchId+'/students').then(function (response) {
+                    resolve(response.data)
+                })
+            }).then((data) => {
+                    console.log("this is data")
+                console.log(data)
+                this.students = data
+                // console.log(this.products)
+            }).catch((err)=>{
+                    console.log(err)
+            })
+            }
+
+
+
+        }
+
+    })
+    app.getAllStudents();
+    // app.findAllVendors();
+</script>
+
+</html>
