@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstap.css">
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#header").load("header.html");
+        });
+    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+<div id="header"></div>
+
+<div class="container" id="demo">
+    <h2>Add Student into Batch</h2>
+    <form >
+        <select class="form-control" id="sel1" v-model="batchId" placeholder ="Select batch" required>
+            <option value="">Select Any value</option>
+            <option v-for="batch in batchs" :value="batch.id" >{{ batch.name }} </option>
+            <!-- <option value="v.id">{{v.name}}</option>-->
+            <!--<option value="2">MI</option>-->
+        </select>
+        <br>
+
+        <button class="btn btn-default" v-on:click= "addStudent">Add Student </button>
+    </form>
+    <br><br>
+    <h1>Student details</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Student Id</th>
+                <th>Student Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr v-for="student in students">
+                <td>{{student.id}}</td>
+                <td>{{student.name}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+
+<script>
+    let app =new Vue({
+        el: '#demo',
+        data: {
+            name  : '',
+            batchId : '',
+            studentId : '',
+            batchs : [],
+            students : []
+        },
+        methods : {
+            addStudent() {
+                // if(this.batchId ==='undefined')window.location = "student.html"
+
+                var obj = {batchid : this.batchId};
+                console.log(obj)
+                // if(this.courseId == '')
+                console.log('/students/'+this.studentId + '/batches/')
+                new Promise((resolve) => {
+                    axios.post('/students/'+this.studentId+'/batches/', obj).then(function (data) {
+                    resolve(data.data)
+                })
+                }).then((data) => {
+                        console.log(data)
+                })
+                //
+                console.log(this.batchId)
+                // if(this.batchId!='undefined')
+                // window.alert("Student has been added to the batch")
+                // window.location();
+                window.alert("Student has been added to the batch")
+                // window.location.replace('http://www.rainbowcode.net/index.php/profiles/mail?='+mailid)
+                 window.location = "student.html" ;
+
+                // app.init()
+            },
+            init(){
+                var ids =window.location.search ;
+                temp = ids.substr(ids.indexOf("=")+1);
+                console.log(temp)
+                var res = temp.split("/");
+                this.studentId = res[0]
+                console.log(this.studentId + " " + this.studentId)
+
+                if(this.studentId ==='' || this.batchId == 'undefined')window.location = "student.html"
+                // getStudent()
+            },
+            getAllBatch(){
+                new Promise((resolve)=>{
+                    axios.get('/courses/course/findAllBatch').then(function (data) {
+                    resolve(data.data)
+                    console.log(data.data)
+                })
+                }).then((data)=>{
+                        this.batchs = data
+                })
+            },
+            getStudent(){
+                new Promise((resolve)=>{
+                    axios.get('/students/' + this.studentId).then(function (data) {
+                    resolve(data.data)
+                    console.log(data.data)
+                })
+                }).then((data)=>{
+                        this.students = data
+                        // console.log(data)
+                })
+            }
+        }
+    })
+    app.init()
+    app.getAllBatch();
+    app.getStudent()
+
+</script>
+</body>
+</html>

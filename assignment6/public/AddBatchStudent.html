@@ -18,16 +18,17 @@
 <div id="header"></div>
 
 <div class="container">
-    <h2>Add Batch</h2>
+    <h2>Add Student</h2>
     <form id="demo">
         <select class="form-control" id="sel1" v-model="studentId"  >
             <!--<option value="">Select Any value</option>-->
-            <option v-for="subject in subjects"
-                    :value="subject.id">{{ subject.name }} </option>
+            <option v-for="student in students"
+                    :value="student.id">{{ student.name }} </option>
             <!-- <option value="v.id">{{v.name}}</option>-->
             <!--<option value="2">MI</option>-->
         </select>
-        <button class="btn btn-default" v-on:click= "addStudent">Add Subject</button>
+        <br>
+        <button class="btn btn-default" v-on:click= "addStudent">Add Student</button>
     </form>
 
 </div>
@@ -42,39 +43,61 @@
             name  : '',
             courses : [],
             CourseId: '',
+            batchId : '',
             studentId : '',
+            students : []
         },
         methods : {
             addStudent() {
-                var obj = {name: this.name ,courseid : this.CourseId};
+                // var res = CourseId.split("/");
+                // console.log(res)
+                var obj = {studentId : this.studentId};
                 console.log(obj)
-                if(this.courseId == '')window.location = "index.html"
+                // if(this.courseId == '')
                 console.log('/courses'+this.courseId)
-                /*new Promise((resolve) => {
-                    axios.post('/courses/'+this.courseId, obj).then(function (data) {
+                new Promise((resolve) => {
+                    axios.post('/courses/'+this.courseId + '/batches/'+this.batchId +'/students', obj).then(function (data) {
                     resolve(data.data)
                     // console.log(data.data)
+                    })
+                }).then((data) => {
+                        console.log(data)
                 })
-            }).then((data) => {
-                    console.log(data)
-            })*/
+                //
                 window.alert("Student has been added to the batch")
                 // window.location();
+                // window.alert("Student has been added to the batch")
+               // window.location.replace('http://www.rainbowcode.net/index.php/profiles/mail?='+mailid)
+               //  window.location = "courseStudent.html?id="+this.courseId + '/batches/'+this.batchId;
+
                 // app.init()
             },
             init(){
                 var ids =window.location.search ;
-                console.log(ids.substr(ids.indexOf("=")+1) )
-                this.courseId = ids.substr(ids.indexOf("=")+1);
-                console.log(this.courseId)
+                // console.log(ids.substr(ids.indexOf("=")+1) )
+                temp = ids.substr(ids.indexOf("=")+1);
+                console.log(temp)
+                var res = temp.split("/");
+                // console.log(res)
+                this.courseId = res[0]
+                this.batchId = res[2]
+                console.log(this.courseId + " " + this.batchId)
+                if(this.courseId ==='' || this.batchId === '')window.location = "course.html"
             },
             getAllStudent(){
-
+                new Promise((resolve)=>{
+                    axios.get('/students').then(function (data) {
+                    resolve(data.data)
+                    console.log(data.data)
+                })
+            }).then((data)=>{
+                    this.students = data
+            })
             }
         }
     })
     app.init()
-    app.findAllSubjects();
+    app.getAllStudent();
 
 </script>
 </body>

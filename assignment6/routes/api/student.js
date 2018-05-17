@@ -130,6 +130,22 @@ route.get('/:id/batches', (req, res) =>{
     })
     })
 });
+//post request on http://localhost:8080/students/3/batches
+route.post('/:id/batches', (req, res) =>{
+
+    Mapper.create({
+        StudentId : req.params.id,
+        BatchId : req.body.batchid
+    }).
+    then((subject)=>{
+        res.status(200).send(subject)
+    })
+    .catch((err)=>{
+        res.status(500).send({
+        error : "could not retrieve student "
+    })
+    })
+});
 
 //exports this module
 exports = module.exports= route;

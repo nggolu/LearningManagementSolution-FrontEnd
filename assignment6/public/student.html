@@ -29,6 +29,7 @@
                 <th>Student Id</th>
                 <th>Student Name</th>
                 <!--<th>XYZ</th>-->
+                <th> See student</th>
             </tr>
             </thead>
             <tbody>
@@ -36,7 +37,7 @@
                 <td>{{student.id}}</td>
                 <td>{{student.name}}</td>
                 <!--<td>{{course.id}}</td>-->
-                <!--<td><button type="button" class="btn btn-primary" v-on:click="viewBatches(student.id)">Batchees</button></td>-->
+                <td><button type="button" class="btn btn-primary" v-on:click="viewStudent(student.id)">View Student</button></td>
                 <!--<td>-->
                 <!--<button type="button" class="btn btn-primary" v-on:click="changequantity(cartItem.productId,-1)">-</button>-->
                 <!--{{cartItem.quantity}}-->
@@ -69,6 +70,10 @@
             }).catch((err)=>{
                     console.log(err)
             })
+            },
+            viewStudent(id){
+                this.courseId = id;
+                window.location = "AddStudentBatch.html?id="+id;
             }
         }
 

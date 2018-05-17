@@ -21,8 +21,8 @@
 <div class="container"  id="app">
     <div class="row">
         <div class="col-sm-3" ></div>
-        <a href="#" class = "col-sm-6" style="color: white">
-            <button type="button" class="btn btn-primary col-sm-12" >Add Student</button>
+        <a class = "col-sm-6" style="color: white">
+            <button type="button"  class="btn btn-primary col-sm-12"  v-on:click="AddStudent()">Add Student</button>
         </a>
         <div class="col-sm-2" ></div>
     </div>
@@ -84,6 +84,10 @@
             }).catch((err)=>{
                     console.log(err)
             })
+            },
+            AddStudent(){
+
+                window.location = "AddBatchStudent.html?id="+this.batchId;
             }
 
 
@@ -92,7 +96,7 @@
 
     })
     app.getAllStudents();
-    // app.findAllVendors();
+    // app.AddStudent();
 </script>
 
 </html>
