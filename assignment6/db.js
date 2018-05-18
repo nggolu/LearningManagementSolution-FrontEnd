@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize')
 //database connection
-const db = new Sequelize('learningmanagement', 'root', 'root', {
-    dialect: 'mysql',
+const db = new Sequelize('database', 'root', 'root', {
+    dialect: 'sqlite',
     host: 'localhost',
+    storage: './database.db'
 
 })
 //create course table
